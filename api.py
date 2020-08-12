@@ -25,7 +25,7 @@ def home():
     except:
         pass
     
-    postData = {'lat': request.args.get('lat'), 'long': request.args.get('long'),  'zip': request.args.get('zip'),  'custID': request.args.get('custID'), 'miles': request.args.get('miles'), 'storeType': storeType, 'brand': brand, 'pkgtype': pkgtype)    
+    postData = {'lat': request.args.get('lat'), 'long': request.args.get('long'),  'zip': request.args.get('zip'),  'custID': request.args.get('custID'), 'miles': request.args.get('miles'), 'storeType': storeType, 'brand': brand, 'pkgtype': pkgtype}   
     url = 'https://finder.vtinfo.com/finder/web/v2/iframe/search'
 
     res = requests.post(url, data=postData)
