@@ -1,9 +1,11 @@
 import flask
 from flask import request
 import requests
+from flask_cors import CORS, cross_origin
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = False
+cors=CORS(app)
+app.config["CORS_HEADERS"] = 'Content-Type'
 
 @app.route('/', methods=['GET'])
 @cross_origin()
