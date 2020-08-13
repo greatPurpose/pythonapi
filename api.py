@@ -37,4 +37,5 @@ def home():
     res = requests.post(url, data=postData)
     return res.text
 
-app.run()
+if  __name__ == "__main__"
+    app.run(host='0.0.0.0', port=5000)
