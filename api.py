@@ -2,10 +2,6 @@ import flask
 from flask import request
 import requests
 from flask_cors import CORS, cross_origin
-from OpenSSL import SSL
-context = SSL.Context(SSL.PROTOCOL_TLSv1_2)
-context.use_privatekey_file('server.key')
-context.use_certificate_file('server.crt')
 
 app = flask.Flask(__name__)
 cors=CORS(app)
@@ -34,8 +30,12 @@ def home():
     postData = {'lat': request.args.get('lat'), 'long': request.args.get('long'),  'zip': request.args.get('zip'),  'custID': request.args.get('custID'), 'miles': request.args.get('miles'), 'storeType': storeType, 'brand': brand, 'pkgtype': pkgtype}   
     url = 'https://finder.vtinfo.com/finder/web/v2/iframe/search'
 
-    res = requests.post(url, data=postData)
+    res = requests.post(url, data=postData, headers={'referer': 'https://finder.vtinfo.com/finder/web/v2/iframe?custID=HOF&theme=bs-journal'})
+    if res.text.find("You are over your daily allowed usage limit") > -1 :
+        postData = {'lat': request.args.get('lat'), 'long': request.args.get('long'),  'zip': request.args.get('zip'),  'custID': request.args.get('custID'), 'category1':'Brandfinder', 'miles': request.args.get('miles'), 'storeType': storeType, 'brand': brand, 'pkgtype': pkgtype}
+        res = requests.post(url, data=postData, headers={'referer': 'https://finder.vtinfo.com/finder/web/v2/iframe?custID=HOF&category1=Brandfinder'})
+        
     return res.text
 
-if  __name__ == "__main__"
+if  __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
